@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
  * Member 1: Database & Coordination - Ssentongo Trevor]
  * Member 2: GUI Design & Layout - [Busingye Colline]
  * Member 3: CRUD Operations - [Katongole Denis]
- * Member 4: Validation & Security - [Name]
- * Member 5: File Handling & Testing - [Name]
+ * Member 4: Validation & Security - [Mugamba Enock]
+ * Member 5: File Handling & Testing - [Katushabe Margret]
  */
 public class ExhibitionRegistrationSystem extends JFrame {
     
