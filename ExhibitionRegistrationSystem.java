@@ -15,9 +15,9 @@ import java.util.regex.Pattern;
  * Group Project - 5 Members
  * 
  * @author [Team Member Names]
- * Member 1: Database & Coordination - [Name]
- * Member 2: GUI Design & Layout - [Name]
- * Member 3: CRUD Operations - [Name]
+ * Member 1: Database & Coordination - Ssentongo Trevor]
+ * Member 2: GUI Design & Layout - [Busingye Colline]
+ * Member 3: CRUD Operations - [Katongole Denis]
  * Member 4: Validation & Security - [Name]
  * Member 5: File Handling & Testing - [Name]
  */
@@ -60,10 +60,17 @@ public class ExhibitionRegistrationSystem extends JFrame {
      * @author Member 1 - Database Architect
      */
     private void initializeDatabase() {
-        // TODO: Member 1 - Implement database connection
-        // - Load UCanAccess driver
-        // - Establish connection
-        // - Handle connection errors
+         try {
+        Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
+        connection = DriverManager.getConnection(DB_URL);
+        System.out.println("Database connected successfully!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+            "Database connection failed: " + e.getMessage(),
+            "Database Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             connection = DriverManager.getConnection(DB_URL);
