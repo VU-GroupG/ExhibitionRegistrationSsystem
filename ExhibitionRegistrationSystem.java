@@ -343,3 +343,142 @@ public class ExhibitionRegistrationSystem extends JFrame {
         });
     }
 }
+
+//validation and security
+ * Validate all input fields
+ * @author Member 4 - Validation & Security Specialist
+ */
+private boolean validateInput() {
+    // Check for empty Registration ID
+    if (txtRegistrationId.getText().trim().isEmpty()) {
+        showValidationError("Registration ID is required.");
+        txtRegistrationId.requestFocus();
+        return false;
+    }
+    
+    // Check for empty Student Name
+    if (txtStudentName.getText().trim().isEmpty()) {
+        showValidationError("Student Name is required.");
+        txtStudentName.requestFocus();
+        return false;
+    }
+    
+    // Check Faculty selection
+    if (cmbFaculty.getSelectedIndex() == 0) {
+        showValidationError("Please select a Faculty.");
+        cmbFaculty.requestFocus();
+        return false;
+    }
+    
+    // Check for empty Project Title
+    if (txtProjectTitle.getText().trim().isEmpty()) {
+        showValidationError("Project Title is required.");
+        txtProjectTitle.requestFocus();
+        return false;
+    }
+    
+    // Check for empty Contact Number
+    if (txtContactNumber.getText().trim().isEmpty()) {
+        showValidationError("Contact Number is required.");
+        txtContactNumber.requestFocus();
+        return false;
+    }
+    
+    // Check for empty Email Address
+    if (txtEmailAddress.getText().trim().isEmpty()) {
+        showValidationError("Email Address is required.");
+        txtEmailAddress.requestFocus();
+        return false;
+    }
+    
+    // Validate Registration ID format (alphanumeric only)
+    String regId = txtRegistrationId.getText().trim();
+    if (!regId.matches("^[A-Za-z0-9]+$")) {
+        showValidationError("Registration ID should contain only letters and numbers.\n" +
+                          "Valid examples: REG001, ST123, PROJ2024\n" +
+                          "Invalid examples: REG-001, REG 001, REG@001");
+        txtRegistrationId.requestFocus();
+        return false;
+    }
+    
+    // Validate contact number format (10-15 digits, optional + prefix)
+    String contact = txtContactNumber.getText().trim();
+    if (!contact.matches("^[+]?[0-9]{10,15}$")) {
+        showValidationError("Contact Number should contain 10-15 digits (+ allowed at start).\n" +
+                          "Valid examples: +256701234567, 0701234567, 256701234567\n" +
+                          "Invalid examples: 123, abc123, +256-701-234-567");
+        txtContactNumber.requestFocus();
+        return false;
+    }
+    
+    // Validate email format
+    String email = txtEmailAddress.getText().trim();
+    String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+    if (!Pattern.matches(emailRegex, email)) {
+        showValidationError("Please enter a valid email address.\n" +
+                          "Valid examples: student@vu.ac.ug, john.doe@gmail.com\n" +
+                          "Invalid examples: student@, @vu.ac.ug, studentvu.ac.ug");
+        txtEmailAddress.requestFocus();
+        return false;
+    }
+    
+    // Validate Student Name (should not contain numbers or special characters)
+    String studentName = txtStudentName.getText().trim();
+    if (!studentName.matches("^[A-Za-z\\s]+$")) {
+        showValidationError("Student Name should contain only letters and spaces.\n" +
+                          "Valid examples: John Doe, Alice Johnson\n" +
+                          "Invalid examples: John123, Alice@Smith");
+        txtStudentName.requestFocus();
+        return false;
+    }
+    
+    // Validate Project Title (should not be too short)
+    String projectTitle = txtProjectTitle.getText().trim();
+    if (projectTitle.length() < 5) {
+        showValidationError("Project Title should be at least 5 characters long.");
+        txtProjectTitle.requestFocus();
+        return false;
+    }
+    
+    // All validations passed
+    return true;
+}
+
+/**
+ * Show validation error message with detailed information
+ * @author Member 4 - Validation & Security Specialist
+ */
+private void showValidationError(String message) {
+    JOptionPane.showMessageDialog(this, 
+        message, 
+        "Validation Error", 
+        JOptionPane.ERROR_MESSAGE);
+}
+
+/**
+ * Additional validation helper method for Registration ID uniqueness
+ * @author Member 4 - Validation & Security Specialist
+ */
+private boolean isRegistrationIdUnique(String registrationId) {
+    String sql = "SELECT COUNT(*) FROM Participants WHERE RegistrationID = ?";
+    try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+        pstmt.setString(1, registrationId);
+        ResultSet rs = pstmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) == 0; // Returns true if count is 0 (unique)
+        }
+    } catch (SQLException e) {
+        System.err.println("Error checking Registration ID uniqueness: " + e.getMessage());
+    }
+    return false;
+}
+
+/**
+ * Additional security method to sanitize input
+ * @author Member 4 - Validation & Security Specialist
+ */
+private String sanitizeInput(String input) {
+    if (input == null) return "";
+    // Remove leading/trailing whitespace and potential SQL injection characters
+    return input.trim().replaceAll("[';\"\\\\]", "");
+}
