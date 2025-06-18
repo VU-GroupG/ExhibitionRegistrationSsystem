@@ -345,6 +345,7 @@ public class ExhibitionRegistrationSystem extends JFrame {
 }
 
 //validation and security
+/**
  * Validate all input fields
  * @author Member 4 - Validation & Security Specialist
  */
@@ -482,3 +483,130 @@ private String sanitizeInput(String input) {
     // Remove leading/trailing whitespace and potential SQL injection characters
     return input.trim().replaceAll("[';\"\\\\]", "");
 }
+
+//GUI
+/**
+ * Create the form panel with input fields
+ * @author Member 2 - GUI Designer
+ */
+private JPanel createFormPanel() {
+    JPanel panel = new JPanel(new GridBagLayout());
+    panel.setBorder(BorderFactory.createTitledBorder(
+        BorderFactory.createEtchedBorder(), "Participant Registration Form",
+        TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14)));
+    
+    GridBagConstraints gbc = new GridBagConstraints();
+    gbc.insets = new Insets(5, 5, 5, 5);
+    gbc.anchor = GridBagConstraints.WEST;
+    
+    // Registration ID
+    gbc.gridx = 0; gbc.gridy = 0;
+    panel.add(new JLabel("Registration ID:"), gbc);
+    gbc.gridx = 1;
+    txtRegistrationId = new JTextField(20);
+    panel.add(txtRegistrationId, gbc);
+    
+    // Student Name
+    gbc.gridx = 0; gbc.gridy = 1;
+    panel.add(new JLabel("Student Name:"), gbc);
+    gbc.gridx = 1;
+    txtStudentName = new JTextField(20);
+    panel.add(txtStudentName, gbc);
+    
+    // Faculty
+    gbc.gridx = 0; gbc.gridy = 2;
+    panel.add(new JLabel("Faculty:"), gbc);
+    gbc.gridx = 1;
+    String[] faculties = {
+        "Select Faculty",
+        "Computer Science",
+        "Information Technology",
+        "Software Engineering",
+        "Electrical Engineering",
+        "Civil Engineering",
+        "Mechanical Engineering",
+        "Applied Sciences"
+    };
+    cmbFaculty = new JComboBox<>(faculties);
+    panel.add(cmbFaculty, gbc);
+    
+    // Project Title
+    gbc.gridx = 0; gbc.gridy = 3;
+    panel.add(new JLabel("Project Title:"), gbc);
+    gbc.gridx = 1;
+    txtProjectTitle = new JTextField(20);
+    panel.add(txtProjectTitle, gbc);
+    
+    // Contact Number
+    gbc.gridx = 0; gbc.gridy = 4;
+    panel.add(new JLabel("Contact Number:"), gbc);
+    gbc.gridx = 1;
+    txtContactNumber = new JTextField(20);
+    panel.add(txtContactNumber, gbc);
+    
+    // Email Address
+    gbc.gridx = 0; gbc.gridy = 5;
+    panel.add(new JLabel("Email Address:"), gbc);
+    gbc.gridx = 1;
+    txtEmailAddress = new JTextField(20);
+    panel.add(txtEmailAddress, gbc);
+    
+    // Image Selection
+    gbc.gridx = 0; gbc.gridy = 6;
+    panel.add(new JLabel("Project Image:"), gbc);
+    gbc.gridx = 1;
+    JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+    txtImagePath = new JTextField(15);
+    txtImagePath.setEditable(false);
+    btnChooseImage = new JButton("Browse");
+    imagePanel.add(txtImagePath);
+    imagePanel.add(btnChooseImage);
+    panel.add(imagePanel, gbc);
+    
+    // Image Display
+    gbc.gridx = 0; gbc.gridy = 7;
+    panel.add(new JLabel("Image Preview:"), gbc);
+    gbc.gridx = 1;
+    lblImageDisplay = new JLabel();
+    lblImageDisplay.setPreferredSize(new Dimension(150, 150));
+    lblImageDisplay.setBorder(BorderFactory.createEtchedBorder());
+    lblImageDisplay.setHorizontalAlignment(SwingConstants.CENTER);
+    lblImageDisplay.setText("No Image Selected");
+    panel.add(lblImageDisplay, gbc);
+    
+    return panel;
+}
+
+/**
+ * Create the button panel
+ * @author Member 2 - GUI Designer
+ */
+private JPanel createButtonPanel() {
+    JPanel panel = new JPanel(new FlowLayout());
+    panel.setBorder(BorderFactory.createTitledBorder("Actions"));
+    
+    btnRegister = new JButton("Register");
+    btnSearch = new JButton("Search");
+    btnUpdate = new JButton("Update");
+    btnDelete = new JButton("Delete");
+    btnClear = new JButton("Clear");
+    btnExit = new JButton("Exit");
+    
+    // Style buttons
+    Color buttonColor = new Color(0, 102, 204);
+    Font buttonFont = new Font("Arial", Font.BOLD, 12);
+    
+    JButton[] buttons = {btnRegister, btnSearch, btnUpdate, btnDelete, btnClear, btnExit};
+    for (JButton btn : buttons) {
+        btn.setBackground(buttonColor);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(buttonFont);
+        btn.setPreferredSize(new Dimension(100, 30));
+        panel.add(btn);
+    }
+    
+    btnExit.setBackground(new Color(204, 0, 0));
+    
+    return panel;
+}
+
