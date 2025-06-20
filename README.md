@@ -20,11 +20,11 @@ The Exhibition Registration System is a Java-based desktop application designed 
 - **Database**: Microsoft Access (VUE_Exhibition.accdb)
 - **JDBC Driver**: UCanAccess for Access database connectivity
 - **Image Handling**: JFileChooser for file selection and display
-- **Security**: PreparedStatements for SQL injection prevention
+- **Security**: preparedStatements for SQL injection prevention
 
 ## System Architecture
 
-### Database Schema
+### Database schema
 
 ```sql
 CREATE TABLE Participants (
