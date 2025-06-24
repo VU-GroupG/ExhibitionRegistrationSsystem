@@ -14,22 +14,19 @@ public class DatabaseSetup {
     public static void main(String[] args) {
         try {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-            Connection connection = DriverManager.getConnection(DB_URL);
-            
-            System.out.println("Connected to database successfully!");
-            
-            // Create table
-            createTable(connection);
-            
-            // Insert sample data
-            insertSampleData(connection);
-            
-            connection.close();
+            try (Connection connection = DriverManager.getConnection(DB_URL)) {
+                System.out.println("Connected to database successfully!");
+                
+                // Create table
+                createTable(connection);
+                
+                // Insert sample data
+                insertSampleData(connection);
+            }
             System.out.println("Database setup completed successfully!");
             
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | SQLException e) {
             System.err.println("Database setup failed: " + e.getMessage());
-            e.printStackTrace();
         }
     }
     
